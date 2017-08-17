@@ -1,6 +1,8 @@
 package br.edu.ifsul.modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -53,7 +57,14 @@ public class Produto implements Serializable {
     @JoinColumn(name = "grupo", referencedColumnName = "id", nullable = false)
     @ForeignKey(name = "fk_grupo_id")
     private Grupo grupo;
+    @ManyToMany
+    @JoinTable(name = "desejos", joinColumns = 
+            @JoinColumn(name = "produto", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "pessoa_fisica", referencedColumnName =  "id", nullable = false))
+    private List<PessoaFisica> desejam = new ArrayList<>();
 
+    
+    
     public Integer getId() {
         return id;
     }
@@ -133,6 +144,14 @@ public class Produto implements Serializable {
 
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
+    }
+
+    public List<PessoaFisica> getDesejam() {
+        return desejam;
+    }
+
+    public void setDesejam(List<PessoaFisica> desejam) {
+        this.desejam = desejam;
     }
 
 }
