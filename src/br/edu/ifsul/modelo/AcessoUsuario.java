@@ -32,14 +32,17 @@ public class AcessoUsuario implements Serializable{
     @SequenceGenerator(name = "seq_acesso_usuario", sequenceName = "seq_acesso_usuario_id", allocationSize = 1)
     @GeneratedValue(generator = "seq_acesso_usuario", strategy = GenerationType.SEQUENCE)
     private Integer id;
+    
     @Temporal(TemporalType.TIMESTAMP) 
     @Column(name = "data", nullable = false)
     private Calendar data;
+    
     @NotNull(message = "O ip não pode ser nulo")
     @NotBlank(message = "O ip não pode ser em branco")
     @Length(max = 15, message = "O ip não pode ser maior do que {max} caracteres")
     @Column(name = "ipAcesso", length = 15, nullable = false)
     private String ipAcesso;
+    
     @NotNull(message = "O usuário não pode ser nulo")
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)

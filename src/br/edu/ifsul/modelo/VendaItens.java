@@ -32,23 +32,28 @@ public class VendaItens implements Serializable {
     @SequenceGenerator(name = "seq_venda_itens", sequenceName = "seq_venda_id", allocationSize = 1)
     @GeneratedValue(generator = "seq_venda_itens", strategy = GenerationType.SEQUENCE)
     private Integer id;
+
     @NotNull(message = "A quantidade  não pode ser nulo")
     @Min(value = 0, message = "A quantidade não pode ser menor do que {value}")
     @Column(name = "quantidade", nullable = false)
     private Double quantidade;
+
     @NotNull(message = "O valor unitário não pode ser nulo")
     @Min(value = 0, message = "O valor unitário não pode ser menor do que {value}")
     @Column(name = "valor_unitario", nullable = false, columnDefinition = "numeric(10,2)")
     private Double valorUnitario;
+
     @NotNull(message = "O valor total não pode ser nulo")
     @Min(value = 0, message = "O valor total não pode ser menor do que {value}")
     @Column(name = "valor_total", nullable = false)
     private Double ValorTotal;
+
     @NotNull(message = "A venda não pode ser nula")
     @ManyToOne
     @JoinColumn(name = "venda", referencedColumnName = "id", nullable = false)
     @ForeignKey(name = "fk_venda_id")
     private Venda venda;
+
     @NotNull(message = "O produto não pode ser nulo")
     @ManyToOne
     @JoinColumn(name = "produto", referencedColumnName = "id", nullable = false)

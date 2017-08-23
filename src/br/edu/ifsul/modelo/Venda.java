@@ -47,6 +47,7 @@ public class Venda implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "data", nullable = false)
     private Calendar data;
+
     @NotNull(message = "O valor total não pode ser nulo")
     @Min(value = 0, message = "O valot total não pode ser menor do que {value}")
     @Column(name = "valor_total", nullable = false, columnDefinition = "numeric(10,2)")
@@ -56,11 +57,12 @@ public class Venda implements Serializable {
     @Min(value = 0, message = "A quantidade de parcelas não pode ser menor do que {value}")
     @Column(name = "parcelas", nullable = false)
     private Integer parcelas;
-    
+
     @NotNull(message = "O pagamento não pode ser nulo")
     @Length(max = 30, message = "O pagamento deve ser menor do que {max} caracteres")
     @Column(name = "pagamento", length = 30)
     private String pagamento;
+
     @NotNull(message = "O usuário deve ser informado")
     @ManyToOne
     @JoinColumn(name = "usuario", referencedColumnName = "id", nullable = false)
@@ -72,12 +74,31 @@ public class Venda implements Serializable {
     @JoinColumn(name = "pessoa_fisica", referencedColumnName = "rg", nullable = false)
     @ForeignKey(name = "fk_pessoa_fisica_id")
     private PessoaFisica pessoaFisica;
-    
+
     @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<VendaItens> itens = new ArrayList<>();
 
+    @OneToMany(mappedBy = "parcelaID.venda", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    List<Parcela> listaParcelas = new ArrayList<>();
+
     public Venda() {
         this.valor_total = 0.0;
+    }
+
+    public void geraParcelas() {
+        Double valorParcela = this.valor_total / this.parcelas;
+        for (int i = 1; i <= this.parcelas; i++) {
+            Parcela par = new Parcela();
+            ParcelaID ident = new ParcelaID();
+            ident.setNumero(i);
+            ident.setVenda(this);
+            par.setParcelaID(ident);
+            par.setValor(valorParcela);
+            Calendar vencimento = this.data;
+            vencimento.add(Calendar.MONTH, i);
+            par.setVencimento(vencimento);
+            this.listaParcelas.add(par);
+        }
     }
 
     public void adicionarItem(VendaItens obj) {
