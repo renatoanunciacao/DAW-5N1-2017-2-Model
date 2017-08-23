@@ -5,12 +5,14 @@
  */
 package br.edu.ifsul.testes.junit;
 
-import br.edu.ifsul.modelo.AcessoUsuario;
 import br.edu.ifsul.modelo.Cidade;
 import br.edu.ifsul.modelo.Estado;
 import br.edu.ifsul.modelo.PessoaFisica;
+import br.edu.ifsul.modelo.Produto;
 import br.edu.ifsul.modelo.Telefone;
 import br.edu.ifsul.modelo.Usuario;
+import br.edu.ifsul.modelo.Venda;
+import br.edu.ifsul.modelo.VendaItens;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.persistence.EntityManager;
@@ -26,12 +28,12 @@ import static org.junit.Assert.*;
  *
  * @author Renato
  */
-public class TestePersistirAcessoUsuario {
+public class TestePersistirVendaItens {
 
     EntityManagerFactory emf;
     EntityManager em;
 
-    public TestePersistirAcessoUsuario() {
+    public TestePersistirVendaItens() {
     }
 
     @Before
@@ -50,13 +52,21 @@ public class TestePersistirAcessoUsuario {
     public void teste() {
         boolean exception = false;
         try {
-            Usuario u = em.find(Usuario.class, 3);
-            AcessoUsuario acesso = new AcessoUsuario();
-            acesso.setIpAcesso("192.168.0.1");
-            acesso.setData(Calendar.getInstance());
-            u.adicionarAcesso(acesso);
+            Produto p = em.find(Produto.class, 1);
+            Venda v = new Venda();
+            v.setData(Calendar.getInstance());
+            v.setParcelas(3);
+            v.setPagamento("Ainda não efetuado");
+            v.setPessoaFisica(em.find(PessoaFisica.class,12));
+            v.setUsuario(em.find(Usuario.class, 13));
+            VendaItens vi = new VendaItens();
+            vi.setProduto(p);
+            vi.setQuantidade(5.0);
+            vi.setValorUnitario(p.getPreco());
+            vi.setValorTotal(vi.getQuantidade() * vi.getValorUnitario());
+            v.adicionarItem(vi);
             em.getTransaction().begin();
-            em.persist(u);
+            em.persist(v);
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();

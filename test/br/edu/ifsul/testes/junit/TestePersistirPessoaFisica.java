@@ -8,6 +8,8 @@ package br.edu.ifsul.testes.junit;
 import br.edu.ifsul.modelo.Cidade;
 import br.edu.ifsul.modelo.Estado;
 import br.edu.ifsul.modelo.PessoaFisica;
+import br.edu.ifsul.modelo.Usuario;
+import br.edu.ifsul.modelo.Venda;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.persistence.EntityManager;
@@ -47,7 +49,7 @@ public class TestePersistirPessoaFisica {
     public void teste() {
         boolean exception = false;
         try {
-            Cidade c = em.find(Cidade.class, 2);
+            Cidade c = em.find(Cidade.class, 3);
             PessoaFisica pf = new PessoaFisica();
             pf.setCidade(c);
             pf.setNome("Renato Anunciação");
@@ -58,7 +60,7 @@ public class TestePersistirPessoaFisica {
             pf.setEmail("wagnerpunk002@gmail.com");
             pf.setEndereco("Padre Valentim");
             pf.setNascimento(new GregorianCalendar(1991, Calendar.JULY, 02));
-            pf.setRg("5109797422");
+            pf.setRg("5109797422");           
             em.getTransaction().begin();
             em.persist(pf);
             em.getTransaction().commit();

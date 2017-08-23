@@ -16,10 +16,12 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
@@ -51,8 +53,9 @@ public class PessoaFisica extends Pessoa implements Serializable {
     @JoinTable(name = "desejos", joinColumns = 
             @JoinColumn(name = "pessoa_fisica", referencedColumnName = "id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "produto", referencedColumnName =  "id", nullable = false))
-    
     private List<Produto> desejos = new ArrayList<>();
+   
+           
     
     
 
@@ -91,5 +94,8 @@ public class PessoaFisica extends Pessoa implements Serializable {
     public void setDesejos(List<Produto> desejos) {
         this.desejos = desejos;
     }
+
+   
+
 
 }

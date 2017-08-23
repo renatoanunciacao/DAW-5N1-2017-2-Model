@@ -52,18 +52,18 @@ public class TestePersistirUsuario {
         boolean exception = false;
         try {
             Usuario u = new Usuario();
-            u.setApelido("Wagner");
+            u.setApelido("joao");
             u.setSenha("da123456");
             u.setAtivo(true);
             u.setAdministador(false);
-            u.setNome("Wagner da Silva");
-            u.setCpf("465.275.042-09");
-            u.setRg("1254745693");
+            u.setNome("Joao Santos");
+            u.setCpf("993.851.870-23");
+            u.setRg("7425639841");
             u.setBairro("Centro");
-            u.setCep("99150-000");
+            u.setCep("99175-000");
             u.setComplemento("Apartamento");
             u.setNascimento(new GregorianCalendar(2000, Calendar.AUGUST, 03));
-            u.setEmail("wagner.programmer@outlook.com");
+            u.setEmail("joao.santos@outlook.com");
             u.setEndereco("Sete de Setembro");
             Cidade c = new Cidade();
             c.setNome("Floripa");

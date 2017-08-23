@@ -12,11 +12,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -25,39 +26,44 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author Renato
  */
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "usuario")
 public class Usuario extends PessoaFisica implements Serializable {
+
     @NotNull(message = "O apelido não pode ser nullo")
     @NotBlank(message = "O apelido não pode estar em branco")
     @Length(max = 20, message = "O apelido não pode ter mais do que {max} caracteres")
-    @Column(name = "apelido", length = 20, nullable = false)
+    @Column(name = "apelido", length = 20, nullable = false, unique = true)
     private String apelido;
     @NotNull(message = "A senha  não pode ser me branca")
     @NotBlank(message = "A senha não pode ser em branca")
     @Length(max = 20, message = "A senha não pode ter mais do que {max} caracteres")
     @Column(name = "senha", length = 20, nullable = false)
     private String senha;
+     @NotNull(message = "Ativo pode ser nulo")
     @Column(name = "ativo", nullable = false)
     private boolean ativo;
+     @NotNull(message = "Administrador não pode ser nulo")
     @Column(name = "administrador", nullable = false)
     private boolean administador;
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<AcessoUsuario> acessos = new ArrayList<>();
     
-    
    
-    public Usuario(){
-        
+
+    public Usuario() {
+
     }
 
-    public void adicionarAcesso(AcessoUsuario obj){
+    public void adicionarAcesso(AcessoUsuario obj) {
         obj.setUsuario(this);
         this.acessos.add(obj);
     }
-    public void removerAcesso(int index){
+
+    public void removerAcesso(int index) {
         this.acessos.remove(index);
     }
+
+
     public String getApelido() {
         return apelido;
     }
@@ -97,6 +103,5 @@ public class Usuario extends PessoaFisica implements Serializable {
     public void setAcessos(List<AcessoUsuario> acessos) {
         this.acessos = acessos;
     }
-    
-    
+
 }

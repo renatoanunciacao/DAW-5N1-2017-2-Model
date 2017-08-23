@@ -33,7 +33,7 @@ public class Produto implements Serializable {
     @SequenceGenerator(name = "seq_produto", sequenceName = "seq_produto_id", allocationSize = 1)
     @GeneratedValue(generator = "seq_produto", strategy = GenerationType.SEQUENCE)
     private Integer id;
-    @NotNull(message = "O produto não pode ser em branco")
+    @NotNull(message = "O produto não pode ser nulo")
     @NotBlank(message = "O produto não pode ser em branco")
     @Length(max = 50, message = "O produto não pode ter mais de {max} caracteres")
     @Column(name = "nome", length = 50, nullable = false)
@@ -43,7 +43,7 @@ public class Produto implements Serializable {
     @NotNull(message = "O preço deve ser informado")
     @Column(name = "preco", nullable = false, columnDefinition = "numeric(10,2)")
     private Double preco;
-    @NotNull(message = "O estoque não pode ser em branco")
+    @NotNull(message = "O estoque não pode nulo")
     @Min(value = 0, message = "O estoque não pode ser menor que {value}")
     @Column(name = "estoque", nullable = false, columnDefinition = "numeric(10,2)")
     private Double estoque;
