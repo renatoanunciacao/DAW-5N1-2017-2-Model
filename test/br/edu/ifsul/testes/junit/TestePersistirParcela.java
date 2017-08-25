@@ -53,6 +53,12 @@ public class TestePersistirParcela {
         boolean exception = false;
         try {
             Venda v = em.find(Venda.class, 26);
+            //limpando a lista de parcelas
+            v.getListaParcelas().clear();
+             em.getTransaction().begin();
+            em.persist(v);
+            em.getTransaction().commit();
+            
             v.geraParcelas();
             em.getTransaction().begin();
             em.persist(v);
